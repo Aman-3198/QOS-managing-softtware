@@ -1,0 +1,18 @@
+[Unit]
+Description=Smart QoS Manager privileged helper (root)
+After=network.target
+# The privileged helper applies tc/nft shaping + manages the hotspot.
+# The unprivileged backend talks to it over a locked Unix socket.
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 /home/aman/Documents/Qos/privileged-helper/helper.py --user aman
+Restart=on-failure
+RestartSec=3
+# Hardening
+NoNewPrivileges=yes
+ProtectSystem=strict
+ReadWritePaths=/run/smartqos /var/log/smartqos /etc/smartqos
+
+[Install]
+WantedBy=multi-user.target

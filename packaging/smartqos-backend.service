@@ -1,0 +1,16 @@
+[Unit]
+Description=Smart QoS Manager backend (unprivileged web API + dashboard)
+After=network.target smartqos-helper.service
+Wants=smartqos-helper.service
+
+[Service]
+Type=simple
+User=aman
+WorkingDirectory=/home/aman/Documents/Qos/backend
+Environment=PYTHONPATH=/home/aman/Documents/Qos/backend
+ExecStart=/home/aman/.local/bin/uv run uvicorn app.main:app --host 127.0.0.1 --port 8090 --no-access-log
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
